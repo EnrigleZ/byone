@@ -16,11 +16,12 @@ function getDatasetOptions(fields = null, modelSelected = null, decaySelected = 
     const datasets = fields === null ? DATASETS
         : DATASETS.filter(x => fields.indexOf(x.key) >= 0)
     return datasets.map(({ key, name }) => (
-        <Option disabled={!modelSelected || !combinationValid(key, modelSelected, decaySelected)} value={key} key={key}>{ name }</Option>
+        <Option value={key} key={key}>{ name }</Option>
     ))
 }
 
 function combinationValid(dataset, modelName, decay) {
+    return true
     console.log(dataset, modelName, decay)
     if (modelName === "PAKT") {
         return !decay || dataset.indexOf('_') >= 0
@@ -39,11 +40,15 @@ function name2Option(name) {
 }
 
 function getOptions(acceptModels) {
-    let all = ["PAKT", "SAKT", "UTKT"]
+    let all = ["DKT", "DKT+", "DKVMN", "SAKT", "KT-Gain", "KT-MTL"]
     if (acceptModels) {
         all = all.filter(x => acceptModels.indexOf(x) >= 0)
     }
     return all.map(x => name2Option(x))
+}
+
+function getGainOptions() {
+    return ['Attention', 'Convolutional', 'Diff'].map(x => name2Option(x))
 }
 
 const ConfigModal = (props) => {
@@ -59,6 +64,7 @@ const ConfigModal = (props) => {
     const [datasetSelected, setDataset] = React.useState(dataset)
     const [modelSelected, setModel] = React.useState(modelName)
     const [decaySelected, setDecay] = React.useState(weightDecay)
+    const [gain, setGain] = React.useState('Convolutional')
 
     const onOk = () => {
         if (!combinationValid(datasetSelected, modelSelected, decaySelected)) {
@@ -66,7 +72,7 @@ const ConfigModal = (props) => {
             return
         }
         setDisplay(false)
-        update(modelSelected, datasetSelected, decaySelected)
+        update(modelSelected, datasetSelected, gain)
     }
 
     const onCancel = () => {
@@ -108,12 +114,14 @@ const ConfigModal = (props) => {
                     { getDatasetOptions(datasets, modelSelected, decaySelected) }
                 </Select>
             </Item>
-            <Item label={<span>启用权重衰减&nbsp;
-                    <Tooltip title="正则化">
+            <Item label={<span>知识增益抽取方式&nbsp;
+                    <Tooltip title="选择知识增益抽取模块的具体结构">
                     <QuestionCircleOutlined />
                 </Tooltip>
-            </span>} hidden={modelSelected !== "PAKT"}>
-                <Checkbox onChange={onDecayChange} checked={decaySelected} />
+            </span>} hidden={modelSelected !== "KT-Gain"}>
+                <Select defaultValue={gain} onChange={setGain}>
+                    {getGainOptions()}
+                </Select>
             </Item>
         </Form>
     </Modal>)

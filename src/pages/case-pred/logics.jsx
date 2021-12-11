@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import { stringify } from 'qs'
 
 export const PostInferenceStep = (data) => {
     const ret = Axios.post("inference/step/", data)
@@ -6,32 +7,34 @@ export const PostInferenceStep = (data) => {
 }
 
 const PostInferenceExercise = (data) => {
-    const ret = Axios.post("inference/exercise/", data)
+    const ret = Axios.get(`test?${stringify(data)}`)
     return ret
 }
 
 export const getInferenceResult = (model, dataset, decay, values) => {
     const data = {
-        model_name: model,
-        dataset,
-        exercise_list: values.map(x => String(x.id)),
-        label_list: values.map(x => x.answer ? "1" : "0"),
-        weight_decay: decay,
-        step: "49"
+        // model_name: model,
+        // dataset,
+        questions: values.map(x => String(x.id)).join(','),
+        answers: values.map(x => x.answer ? "1" : "0").join(','),
+        // weight_decay: decay,
+        // step: "49"
     }
 
-    const ret = PostInferenceStep(data)
+    const ret = PostInferenceExercise(data)
     return ret
 }
 
 export const getInferenceExerciseResult = (model, dataset, decay, values, exercise) => {
     const data = {
-        model_name: model,
-        dataset,
-        exercise_list: values.map(x => String(x.id)),
-        label_list: values.map(x => x.answer ? "1" : "0"),
-        weight_decay: decay,
-        exercise
+        questions: values.map(x => String(x.id)).join(','),
+        answers: values.map(x => String(x.answer ? '1' : '0')).join(','),
+        // model_name: model,
+        // dataset,
+        // exercise_list: values.map(x => String(x.id)),
+        // label_list: values.map(x => x.answer ? "1" : "0"),
+        // weight_decay: decay,
+        // exercise
     }
 
     const ret = PostInferenceExercise(data)

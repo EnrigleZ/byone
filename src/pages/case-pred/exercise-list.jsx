@@ -8,10 +8,14 @@ const correctStyle = { color: '#52c41a', backgroundColor: '#f6ffed' }
 const wrongStyle = {
     color: '#fa541c', backgroundColor: '#fff2e8'
 }
+const invalidStyle = {
+    color: '#FFF', backgroundColor: '#FFF'
+}
 
-const ExerciseStep = ({ value, toggle, change, index }) => {
+const ExerciseStep = ({ value, toggle, change, index, valid }) => {
     const { id, answer } = value
     const ref = React.createRef()
+    if (!valid) return null;
     return (
         <Avatar
             onClick={toggle}
@@ -44,7 +48,7 @@ const Correct = <CheckOutlined />
 const Wrong = <CloseOutlined />
 
 const ExercistList = (props) => {
-    const { values, totalExercises } = props
+    const { values, totalExercises, length } = props
     const [_, setState] = React.useState(false)
 
     const toggleAnswerCallback = React.useCallback((index) => {
@@ -81,6 +85,7 @@ const ExercistList = (props) => {
                             value={value}
                             toggle={() => { toggleAnswerCallback(index) }}
                             change={(newId) => { changeIdCallback(index, newId) } }
+                            valid={index < length}
                         />
                     </div>
                 )})

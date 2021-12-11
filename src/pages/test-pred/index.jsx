@@ -20,13 +20,13 @@ const TestsetPredictionPage = (props) => {
     const [display1, setDisplay1] = React.useState(false)
     const [display2, setDisplay2] = React.useState(false)
 
-    const callback = (setResult, setSpinning, modelName, dataset, weightDecay) => {
+    const callback = (setResult, setSpinning, modelName, dataset, gain) => {
         if (!modelName || !dataset) {
             message.error("请填写模型类型与测试数据集")
             return
         }
         setSpinning(true)
-        getPrediction(modelName, dataset, weightDecay)
+        getPrediction(modelName, dataset, gain)
             .then(res => {
                 setResult(res.data)
             })

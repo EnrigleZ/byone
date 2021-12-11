@@ -1,9 +1,16 @@
 import React from 'react'
 import { Card, Col, Divider, message, Progress, Row, Spin, Empty, Button, InputNumber } from 'antd'
 import InteractArea from './interact-area'
-import { getInferenceResult } from './logics'
+import { getInferenceExerciseResult } from './logics'
 import { getDatasetInfo } from '../../misc/dataset'
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons'
+import { averageDebounce } from '../../utils'
+
+function parseResult(data, length, debounce) {
+    const ret = data[length - 1];
+    return ret;
+    // return data.map(x => x[length - 1])
+}
 
 const ProgressArea = (props) => {
     const { results, n } = props
@@ -43,7 +50,8 @@ const PredictStepPage = (props) => {
     const [loading, setLoading] = React.useState(false)
     const [results, setResults] = React.useState(null)
 
-    const getResult = React.useCallback((model, dataset, decay, values) => {
+    const getResult = React.useCallback((model, dataset, decay, values, debounce) => {
+        console.log(debounce)
         const datasetInfo = getDatasetInfo(dataset)
         if (!model || !dataset) {
             message.error("请填写模型参数")
@@ -51,9 +59,12 @@ const PredictStepPage = (props) => {
         }
         setN(datasetInfo.totalExercises)
         setLoading(true)
-        getInferenceResult(model, dataset, decay, values).then(res => {
-            const data = res.data.pred_step
-            setResults(data)
+        getInferenceExerciseResult(model, dataset, decay, values).then(res => {
+            console.log(res)
+            const data = res.data.kt.value;
+            setResults(parseResult(data, res.data.length, debounce));
+            // const data = res.data.pred_step
+            // setResults(data)
         })
             .catch(() => { })
             .finally(() => { setLoading(false) })

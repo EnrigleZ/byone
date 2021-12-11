@@ -47,7 +47,7 @@ export default (props) => {
                     <Descriptions.Item label="习题数">{ n_exercises }</Descriptions.Item>
                 </Descriptions>
                 <Divider>
-                    <span style={{ color: "#999", fontStyle: "italic" }}>测试结果</span>
+                    <span style={{ color: "#999", fontStyle: "italic" }}>测试集结果</span>
                 </Divider>
                 <Row gutter={16}>
                     <Col span={12}>
@@ -57,14 +57,14 @@ export default (props) => {
                         <StatComp title="F1" value={f1} compare={f_} />
                     </Col>
                 </Row>
-                <Row gutter={16}>
+                {/* <Row gutter={16}>
                     <Col span={12}>
                         <StatComp title="Precision" value={precision} compare={p_} />
                     </Col>
                     <Col span={12}>
                         <StatComp title="Recall" value={recall} compare={r_} />
                     </Col>
-                </Row>
+                </Row> */}
             </Card>
         </Spin>
     )

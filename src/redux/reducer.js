@@ -2,7 +2,7 @@ import { UpdateConfig } from './action'
 
 const initState = {
     config: {
-        modelName: "PAKT",
+        modelName: "UTKT",
         dataset: "assist2009",
         weightDecay: false
     }
