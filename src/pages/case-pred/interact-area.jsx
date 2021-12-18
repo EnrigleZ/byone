@@ -67,7 +67,7 @@ const InteractArea = (props) => {
                 needDebounce={needDebounce}
             />
             <Divider />
-            { statisticArea }
+            {/* { statisticArea } */}
             <Button hidden={!dataset} type="primary" onClick={() => { submit(model, dataset.key, decay, values.slice(0, len), debounce) }}>开始</Button>
         </Card>
     )

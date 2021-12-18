@@ -60,7 +60,6 @@ const PredictExercisePage = (props) => {
             .finally(() => { setLoading(false) })
     }, [setN, setLoading, exercise])
 
-    console.log(n)
     return (
         <>
             <InteractArea submit={getResult} needDebounce />

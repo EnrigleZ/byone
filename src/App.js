@@ -11,6 +11,8 @@ import HomePage from './pages/home'
 import TestsetPrediction from './pages/test-pred'
 import PredictStepPage from './pages/case-pred/pred-step'
 import PredictExercisePage from './pages/case-pred/pred-exercise'
+import PredictGainPage from './pages/case-pred/pred-gain'
+import PredictRoutePage from './pages/case-pred/pred-route'
 
 function App() {
   return (
@@ -22,6 +24,9 @@ function App() {
               <Route path="/test-pred" component={TestsetPrediction} />
               <Route path="/pred-step" component={PredictStepPage} />
               <Route path="/pred-exercise" component={PredictExercisePage} />
+              <Route path="/pred-gain" component={PredictGainPage} />
+              <Route path="/pred-route" component={PredictRoutePage} />
+              {/* <Route path="/recommendation" component={PredictExercisePage} /> */}
               <Route path="/" component={HomePage} />
             </Switch>
           </MyLayout>

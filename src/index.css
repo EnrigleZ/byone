@@ -43,7 +43,7 @@ code {
   color      : #CCC;
   bottom     : 0;
   line-height: 14px;
-  right      : -10px;
+  right      : -3px;
   z-index    : 100;
 }
 
@@ -51,4 +51,8 @@ code {
   top      : 50%;
   position : relative;
   transform: translateY(-50%);
+}
+
+.italic {
+  font-style: italic;
 }

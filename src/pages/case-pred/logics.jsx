@@ -11,6 +11,11 @@ const PostInferenceExercise = (data) => {
     return ret
 }
 
+const PostRoutePlan = (data) => {
+    const ret = Axios.get(`plan?${stringify(data)}`)
+    return ret
+}
+
 export const getInferenceResult = (model, dataset, decay, values) => {
     const data = {
         // model_name: model,
@@ -38,6 +43,16 @@ export const getInferenceExerciseResult = (model, dataset, decay, values, exerci
     }
 
     const ret = PostInferenceExercise(data)
+    return ret
+}
+
+export const getPlan = (model, dataset, values) => {
+    const data = {
+        questions: values.map(x => String(x.id)).join(','),
+        answers: values.map(x => String(x.answer ? '1' : '0')).join(','),
+    }
+
+    const ret = PostRoutePlan(data)
     return ret
 }
 
@@ -70,4 +85,20 @@ export function getConfigs(results) {
         },
     }
     return config
+}
+
+export function getColumnConfigs(results, values) {
+    const data = results.map((value, index) => ({
+        value,
+        index,
+    }));
+
+    console.log(data);
+
+    return {
+        data,
+        height: 400,
+        xField: 'index',
+        yField: 'value',
+    }
 }
